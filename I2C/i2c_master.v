@@ -15,6 +15,8 @@ parameter [3:0] SCAN=4'd1;
 parameter [3:0] DATA=4'd2;
 parameter [3:0] READ=4'd3;
 parameter [3:0] WRITE=4'd4;
+parameter [3:0] WAIT=4'd5;
+
 
 reg [7:0] RWMEM;//mem saved
 
@@ -42,8 +44,10 @@ begin
         end
         SCAN:        
         begin
-            o_SDA<=o_Add_RD;            
-            state=(i_ACK==0)?DATA:SCAN; ///after the ack signal then get the ack                                            
+            o_SDA<=o_Add_RD;   
+                     
+             ///after the ack signal then get the ack
+             state=(i_ACK==0)?DATA:SCAN;                                            
         end
         DATA:
         begin
@@ -60,6 +64,7 @@ begin
             o_SDA=RWMEM;///if write then send the data to slave data from RWMEM is sent to slave
             state=IDLE;       
         end
+        
         
         endcase        
 

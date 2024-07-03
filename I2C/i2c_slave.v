@@ -30,7 +30,8 @@ begin
     case(a)
     IDL:
     begin
-        assign inreg=si_SDA[7:1];        
+        assign inreg=si_SDA[7:1];   
+        s_ACK=1;     
         a=CHEC;        
     end
     CHEC:
@@ -39,28 +40,28 @@ begin
     end
     ACKNOWLEDG:
     begin
-        s_ACK=0;
-        
+        s_ACK=0;                
         //so_SDA=S_ACK;             
-        rw=si_SDA[0];
+        /*rw=si_SDA[0];
         assign a=DAT;
         
     end
     DAT:
-    begin
-        assign a=(rw==0)?READ:WRITE;              
+    begin*/
+        assign a=(si_SDA[0]==0)?READ:WRITE; 
         
     end   
     READ:
-    begin
-    
+    begin    
       so_SDA=mem; ///SEND
+      s_ACK=0;
       assign a=IDL;
                 
     end
     WRITE:
     begin
         WMEM=si_SDA;///SAVE
+        s_ACK=0;
         a=IDL;    
     end
     
