@@ -4,6 +4,8 @@ module I2C_SLAVE_MOD (
     output reg [7:0]so_SDA,
     output reg s_ACK        
     );
+
+//states for the fsm
 parameter [6:0] ADDRESS=7'b1010101;
 parameter  IDL = 0;
 parameter  CHEC=1;
@@ -14,8 +16,8 @@ parameter [2:0] DAT=3'b111;
 reg [6:0]inreg;
 reg [2:0]a;
 reg rw;
-reg [7:0] WMEM;
-reg [7:0] mem=8'b11000011;
+reg [7:0] WMEM;///write mem data that will be saved in this will be from the master
+reg [7:0] mem=8'b11000011;///mem to be sent//READ
 //reg S_ACK;
 initial
 begin
@@ -33,7 +35,7 @@ begin
     end
     CHEC:
     begin
-        assign a=(inreg==ADDRESS) ? ACKNOWLEDG:IDL;
+        assign a=(inreg==ADDRESS) ? ACKNOWLEDG:IDL;////CHECKING IF THE ADDRESS IS ITS
     end
     ACKNOWLEDG:
     begin
@@ -52,13 +54,13 @@ begin
     READ:
     begin
     
-      so_SDA=mem; 
+      so_SDA=mem; ///SEND
       assign a=IDL;
                 
     end
     WRITE:
     begin
-        WMEM=si_SDA;
+        WMEM=si_SDA;///SAVE
         a=IDL;    
     end
     

@@ -52,9 +52,9 @@ always #10  clk = ! clk ;
 
 initial 
 begin 
-  i_Slave_Add=7'b1010101;
-  i_DATA=8'b00000111;
-  i_RW=0;  
+  i_Slave_Add=7'b1010101;///address
+  i_DATA=8'b00000111;///data to be sent to the slave
+  i_RW=0;  ///change to 0 or 1 (read or write)
 end
 always #200 $finish;
 
